@@ -39,6 +39,11 @@ def hello(name):
 def formDemo(name=None):
     if request.method == 'POST':
         name = request.form['name']
+        # add Visitor to the database
+        visitor = Visitor (username=name)
+        db.session.add(visitor)
+
+    db.session.commit()
     return render_template('form.html', name=name)
 
 @app.route('/visitors')
