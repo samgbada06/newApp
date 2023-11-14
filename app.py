@@ -39,9 +39,14 @@ def hello(name):
 def formDemo(name=None):
     if request.method == 'POST':
         name = request.form['name']
-        # add Visitor to the database
-        visitor = Visitor (username=name)
-        db.session.add(visitor)
+        # cHEck if USer is in the database
+        visitor = Visitor.query.get(name)
+        if visitor == None:
+            # add Visitor to the database
+            visitor = Visitor(username=name)
+            db.session.add(visitor)
+        else:
+            Visitor.numVisits +=1
 
     db.session.commit()
     return render_template('form.html', name=name)
